@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
@@ -9,6 +10,9 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class UpdateComponent implements OnInit, OnDestroy {
   
+  @ViewChild('updateTable')
+  updateTable!: Table;
+  loading = false;
   changes: Array<any> = [];
   destroyed$ = new Subject();
   constructor(
@@ -21,9 +25,13 @@ export class UpdateComponent implements OnInit, OnDestroy {
     ).subscribe(message => {
        if (this.changes.length > 0) {
         message.changes.forEach((element: any) => {
+          this.loading = true;
           this.changes.push(element);
-        });
-       
+          setTimeout(() => {
+            this.updateTable.scrollTo( { top: 600 });
+            this.loading = false;
+          }, 1000);
+        });       
        } else {
         this.changes = message.changes;
        }      

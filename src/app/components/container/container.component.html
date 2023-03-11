@@ -1,5 +1,5 @@
 <nav>
-    <button (click)="sendMessage()"> Send BTC-USD Subscrition </button>
+    <button (click)="sendMessage()">{{ allowSubscription ? 'Send BTC-USD Subscription' : 'Send BTC-USD Unsubscription'}}  </button>
     <div class="theme-switch-wrapper" >
          <label class="theme-switch" for="checkbox">
       <input type="checkbox" id="checkbox" [value]="lightMode" #slider (click)="switchTheme()"/>

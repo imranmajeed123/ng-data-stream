@@ -11,6 +11,7 @@ import { WebSocketService } from 'src/app/services/web-socket.service';
 export class ContainerComponent implements OnInit {
   destroyed$ = new Subject();
   lightMode = false;
+  allowSubscription = true;
 
   constructor(
     private webSocket: WebSocketService,
@@ -22,8 +23,6 @@ export class ContainerComponent implements OnInit {
       .connect()
       .pipe(takeUntil(this.destroyed$))
       .subscribe((message) => {
-        console.log('message', Object.keys(message));
-
         if (message.type === 'snapshot') {
           this.dataService.sendSnapshot(message);
         } else if (message.type === 'l2update') {
@@ -33,8 +32,14 @@ export class ContainerComponent implements OnInit {
   }
 
   sendMessage() {
-    this.webSocket.send({});
+    if (this.allowSubscription === true) {
+      this.webSocket.subscribe();
+    } else {
+      this.webSocket.unsubscribe();
+    }
+    this.allowSubscription = !this.allowSubscription;
   }
+
   switchTheme() {
     this.lightMode = !this.lightMode;
     if (this.lightMode === true) {

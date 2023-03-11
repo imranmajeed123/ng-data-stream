@@ -24,16 +24,32 @@ export class WebSocketService {
     );
   }
 
-  send(data: any) {
+  subscribe(channel='BTC-USD') {
     const msg = {
       type: 'subscribe',
-      product_ids: ['BTC-USD'],
+      product_ids: [channel],
       channels: [
         {
           name: 'level2',
         },
       ],
     };
+
+    if (this.connection$) {
+      const payload = {
+        token:
+          '',
+        ...msg,
+      };
+      this.connection$.next(payload);
+    }
+  }
+  unsubscribe(channel='BTC-USD') {
+    const msg = {
+      "type": "unsubscribe",
+    "channels": [
+        "heartbeat", "level2"
+    ]};
 
     if (this.connection$) {
       const payload = {
