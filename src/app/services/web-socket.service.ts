@@ -38,7 +38,7 @@ export class WebSocketService {
     if (this.connection$) {
       const payload = {
         token:
-          '19b84205e35060e9941ad2151520a9bbf1c9a526cd3f263d872106434f7b522f',
+          '',
         ...msg,
       };
       this.connection$.next(payload);
