@@ -10,7 +10,7 @@ import { WebSocketService } from 'src/app/services/web-socket.service';
 })
 export class ContainerComponent implements OnInit {
   destroyed$ = new Subject();
-  darkMode = false;
+  lightMode = false;
 
   constructor(
     private webSocket: WebSocketService,
@@ -36,8 +36,8 @@ export class ContainerComponent implements OnInit {
     this.webSocket.send({});
   }
   switchTheme() {
-    this.darkMode = !this.darkMode;
-    if (this.darkMode === true) {
+    this.lightMode = !this.lightMode;
+    if (this.lightMode === true) {
       document.documentElement.setAttribute('data-theme', 'dark');
       localStorage.setItem('theme', 'dark');
     } else {
