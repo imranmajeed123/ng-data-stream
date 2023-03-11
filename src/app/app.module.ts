@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WebSocketService } from './services/web-socket.service';
-import { ShowMsgComponent } from './show-msg/show-msg.component';
 import { UpdateComponent } from './components/update/update.component';
 import { ContainerComponent } from './components/container/container.component';
 import { DataService } from './services/data.service';
@@ -13,8 +12,7 @@ import { SnapshotComponent } from './components/snapshot/snapshot.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ShowMsgComponent,
+    AppComponent,    
     SnapshotComponent,
     UpdateComponent,
     ContainerComponent
