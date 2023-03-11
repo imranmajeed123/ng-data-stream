@@ -1,0 +1,5 @@
+<ul>
+    <li *ngFor="let message of messages">{{ message.last_trade_id }}</li>
+</ul>
+  <input placeholder="Send a message..." [value]="msgCtrl">
+  <button (click)="sendMessage()">Send</button>
