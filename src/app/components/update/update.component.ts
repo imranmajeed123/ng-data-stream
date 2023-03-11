@@ -9,7 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class UpdateComponent implements OnInit, OnDestroy {
   
-  upated = {} as any;
+  changes: Array<any> = [];
   destroyed$ = new Subject();
   constructor(
     private dataService: DataService
@@ -19,10 +19,13 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.dataService.getUpdatesObs().pipe(
       takeUntil(this.destroyed$)
     ).subscribe(message => {
-       if (this.upated.changes) {
-        this.upated.changes.push(message.changes);
+       if (this.changes.length > 0) {
+        message.changes.forEach((element: any) => {
+          this.changes.push(element);
+        });
+       
        } else {
-        this.upated = message;
+        this.changes = message.changes;
        }      
     });
   }

@@ -1,1 +1,34 @@
-<p *ngIf="snapshot.product_id">{{snapshot.product_id}}</p>
+<div class="columns" *ngIf="bids.length > 0 && asks.length > 0">
+  <div class="bids">
+    <p-table      [value]="bids"   styleClass="p-datatable-striped"   [scrollable]="true"      scrollHeight="600px"   scrollDirection="vertical">
+      <ng-template pTemplate="header">
+        <tr>
+          <th >BID PX</th>
+          <th >BID QTY</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bid>
+        <tr>
+          <td style="text-align: center;">{{ bid[0] }}</td>
+          <td style="text-align: center;">{{ bid[1] }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="asks">
+    <p-table [value]="asks" styleClass="p-datatable-striped" [scrollable]="true" scrollHeight="600px" scrollDirection="vertical">
+      <ng-template pTemplate="header">
+        <tr>
+          <th >ASK PX</th>
+          <th >ASK QTY</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ask>
+        <tr>
+          <td style="text-align: center;">{{ ask[0] }} </td>
+          <td style="text-align: center;"> {{ ask[1] }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

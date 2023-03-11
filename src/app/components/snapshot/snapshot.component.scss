@@ -1,0 +1,14 @@
+
+
+.columns {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .bids {
+    flex: 50%;
+  }
+  .asks {
+    flex: 50%;
+  }

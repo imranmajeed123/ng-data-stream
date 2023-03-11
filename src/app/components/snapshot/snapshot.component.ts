@@ -10,7 +10,9 @@ import { DataService } from 'src/app/services/data.service';
 export class SnapshotComponent implements OnInit, OnDestroy {
  
   destroyed$ = new Subject();
-  snapshot = {} as any;
+  snapshot = [] as any;
+  bids: Array<any> = [];
+  asks: Array<any> = [];
 
   constructor(
     private dataService: DataService
@@ -20,7 +22,8 @@ export class SnapshotComponent implements OnInit, OnDestroy {
     this.dataService.getSnapshotsObs().pipe(
       takeUntil(this.destroyed$)
     ).subscribe(message => {
-      this.snapshot = message;
+      this.bids = message.bids;
+      this.asks = message.asks;
     });    
   }
   ngOnDestroy(): void {

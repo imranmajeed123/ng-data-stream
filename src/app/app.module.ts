@@ -9,6 +9,7 @@ import { UpdateComponent } from './components/update/update.component';
 import { ContainerComponent } from './components/container/container.component';
 import { DataService } from './services/data.service';
 import { SnapshotComponent } from './components/snapshot/snapshot.component';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SnapshotComponent } from './components/snapshot/snapshot.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    TableModule
     
   ],
   providers: [WebSocketService, DataService],

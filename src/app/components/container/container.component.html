@@ -1,4 +1,22 @@
-<p>container works!</p>
-<button (click)="sendMessage()"> Send Message </button>
-<app-snapshot></app-snapshot>
-<app-update></app-update>
+<nav>
+    <button (click)="sendMessage()"> Send BTC-USD Subscrition </button>
+    <div class="theme-switch-wrapper" >
+         <label class="theme-switch" for="checkbox">
+      <input type="checkbox" id="checkbox" [value]="darkMode" #slider (click)="switchTheme()"/>
+      <div class="slider round"></div>
+    </label>
+      <em>Enable Dark Mode!</em>
+    </div>
+   
+</nav>  
+
+  <section>
+      <article class="post">
+        <h1>Bit Coin Demonstration with Angular</h1>
+        <div class="post-meta">BTC-USD Data Stream <span>by</span> Imran Majeed</div>  
+    </article>
+  </section>
+  <div class="columns"> 
+    <div class="snapshot"><app-snapshot></app-snapshot></div>
+    <div class="update"><app-update></app-update></div>
+  </div>

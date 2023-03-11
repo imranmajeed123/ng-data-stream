@@ -10,6 +10,7 @@ import { WebSocketService } from 'src/app/services/web-socket.service';
 })
 export class ContainerComponent implements OnInit {
   destroyed$ = new Subject();
+  darkMode = false;
 
   constructor(
     private webSocket: WebSocketService,
@@ -30,14 +31,23 @@ export class ContainerComponent implements OnInit {
         }
       });
   }
-  
+
   sendMessage() {
-    this.webSocket.send({ });
+    this.webSocket.send({});
+  }
+  switchTheme() {
+    this.darkMode = !this.darkMode;
+    if (this.darkMode === true) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   ngOnDestroy(): void {
     this.destroyed$.complete();
     this.destroyed$.unsubscribe();
   }
-
 }
