@@ -13,7 +13,7 @@ import { SnapshotComponent } from './components/snapshot/snapshot.component';
 import {TableModule} from 'primeng/table';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { coinBaseReducer } from './reducers';
+import { coinBaseReducer } from './store';
 
 @NgModule({
   declarations: [

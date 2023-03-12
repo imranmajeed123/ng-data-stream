@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
-import { CoinBaseState } from 'src/app/reducers';
-import { coinBaseActions } from 'src/app/reducers/actions.-types';
-// import { DataService } from 'src/app/services/data.service';
+import { CoinBaseState } from 'src/app/store';
+import { coinBaseActions } from 'src/app/store/actions.-types';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 
 @Component({
@@ -18,7 +17,6 @@ export class ContainerComponent implements OnInit {
 
   constructor(
     private webSocket: WebSocketService,
-    // private dataService: DataService,
     private store: Store<CoinBaseState>
   ) {}
 
@@ -27,16 +25,23 @@ export class ContainerComponent implements OnInit {
       .connect()
       .pipe(takeUntil(this.destroyed$))
       .subscribe((message) => {
-        
-        if (message.type === 'snapshot') {
-          this.store.dispatch(coinBaseActions.snapshotLoaded({snapshot: message}) );
-          // this.dataService.sendSnapshot(message);        
-        } else if (message.type === 'l2update') {
-          message['changes'].forEach((item:any) => {item.push(message.time)});   
-          this.store.dispatch(coinBaseActions.updatesAdded({update: message}) );
-          // this.dataService.sendUpdate(message);          
-        }
+        this.handleMessages(message);
       });
+  }
+
+  private handleMessages(message: any) {
+    if (message.type === 'snapshot') {
+      this.store.dispatch(
+        coinBaseActions.snapshotLoaded({ snapshot: message })
+      );
+    } else if (message.type === 'l2update') {
+      message['changes'].forEach((item: any) => {
+        item.push(message.time);
+      });
+      this.store.dispatch(
+        coinBaseActions.updatesAdded({ update: message })
+      );
+    }
   }
 
   sendMessage() {
