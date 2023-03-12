@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 
@@ -11,6 +11,9 @@ import { ContainerComponent } from './components/container/container.component';
 import { DataService } from './services/data.service';
 import { SnapshotComponent } from './components/snapshot/snapshot.component';
 import {TableModule} from 'primeng/table';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { coinBaseReducer } from './reducers';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import {TableModule} from 'primeng/table';
     BrowserAnimationsModule,
     AppRoutingModule,
     CommonModule,
-    TableModule
+    TableModule,
+    StoreModule.forRoot({ coinBase: coinBaseReducer}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
     
   ],
   providers: [WebSocketService, DataService],

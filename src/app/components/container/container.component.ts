@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
+import { CoinBaseState } from 'src/app/reducers';
+import { coinBaseActions } from 'src/app/reducers/actions.-types';
+// import { DataService } from 'src/app/services/data.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 
 @Component({
@@ -15,7 +18,8 @@ export class ContainerComponent implements OnInit {
 
   constructor(
     private webSocket: WebSocketService,
-    private dataService: DataService
+    // private dataService: DataService,
+    private store: Store<CoinBaseState>
   ) {}
 
   ngOnInit() {
@@ -23,10 +27,14 @@ export class ContainerComponent implements OnInit {
       .connect()
       .pipe(takeUntil(this.destroyed$))
       .subscribe((message) => {
+        
         if (message.type === 'snapshot') {
-          this.dataService.sendSnapshot(message);
+          this.store.dispatch(coinBaseActions.snapshotLoaded({snapshot: message}) );
+          // this.dataService.sendSnapshot(message);        
         } else if (message.type === 'l2update') {
-          this.dataService.sendUpdate(message);
+          message['changes'].forEach((item:any) => {item.push(message.time)});   
+          this.store.dispatch(coinBaseActions.updatesAdded({update: message}) );
+          // this.dataService.sendUpdate(message);          
         }
       });
   }
