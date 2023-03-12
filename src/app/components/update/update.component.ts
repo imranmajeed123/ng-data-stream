@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
+import { UpdateItem } from 'src/app/model/app.model';
 import { CoinBaseState } from 'src/app/store';
 import { updateSelectors } from 'src/app/store/coinbase.selectors';
 
@@ -14,7 +15,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
   @ViewChild('updateTable')
   updateTable!: Table;
   loading = false;
-  changes: Array<any> = [];
+  changes: Array<UpdateItem> = [];
   destroyed$ = new Subject();
   scrollTo = 300;
   constructor(private store: Store<CoinBaseState>) {}
@@ -23,19 +24,23 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.store
       .select(updateSelectors)
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((update: any) => {
-        if (this.changes.length > 0) {
-          this.loading = true;
-          this.changes = update.changes;
-          setTimeout(() => {
-            this.scrollTo = this.scrollTo + 300;
-            this.updateTable.scrollTo({ top: this.scrollTo });
-            this.loading = false;
-          }, 1000);
-        } else {
-          this.changes = update.changes;
-        }
+      .subscribe((update: {changes: Array<UpdateItem>}) => {
+        this.handleUpdates(update);
       });
+  }
+
+  private handleUpdates(update: {changes: Array<UpdateItem>}) {
+    if (this.changes.length > 0) {
+      this.loading = true;
+      this.changes = update.changes;
+      setTimeout(() => {
+        this.scrollTo = this.scrollTo + 300;
+        this.updateTable.scrollTo({ top: this.scrollTo });
+        this.loading = false;
+      }, 1000);
+    } else {
+      this.changes = update.changes;
+    }
   }
 
   ngOnDestroy(): void {

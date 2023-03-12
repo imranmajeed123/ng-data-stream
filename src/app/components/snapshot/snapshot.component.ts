@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { SnapshotItem } from 'src/app/model/app.model';
 import { CoinBaseState } from 'src/app/store';
 import { snapshotSelector } from 'src/app/store/coinbase.selectors';
 
@@ -12,8 +13,8 @@ import { snapshotSelector } from 'src/app/store/coinbase.selectors';
 export class SnapshotComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
   snapshot = [] as any;
-  bids: Array<any> = [];
-  asks: Array<any> = [];
+  bids: Array<SnapshotItem> = [];
+  asks: Array<SnapshotItem> = [];
 
   constructor(private store: Store<CoinBaseState>) {}
 
@@ -21,7 +22,7 @@ export class SnapshotComponent implements OnInit, OnDestroy {
     this.store
       .select(snapshotSelector)
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((snapshot: any) => {
+      .subscribe((snapshot: {asks: Array<SnapshotItem>, bids: Array<SnapshotItem>}) => {
         this.asks = snapshot.asks;
         this.bids = snapshot.bids;
       });
