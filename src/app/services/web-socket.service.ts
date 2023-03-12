@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, filter, map, Observable, of, retryWhen, switchMap } from 'rxjs';
+import { Observable, of, retry, switchMap } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 @Injectable()
@@ -9,9 +9,6 @@ export class WebSocketService {
 
   connect(): Observable<any> {
     return of('wss://ws-feed-public.sandbox.exchange.coinbase.com').pipe(
-      filter((apiUrl) => !!apiUrl),
-      // https becomes wws, http becomes ws
-      map((apiUrl) => apiUrl.replace(/^http/, 'ws') + '/stream'),
       switchMap((wsUrl) => {
         if (this.connection$) {
           return this.connection$;
@@ -20,11 +17,11 @@ export class WebSocketService {
           return this.connection$;
         }
       }),
-      retryWhen((errors) => errors.pipe(delay(this.RETRY_SECONDS)))
+      retry({ count: 4, delay: this.RETRY_SECONDS })
     );
   }
 
-  subscribe(channel='BTC-USD') {
+  subscribe(channel = 'BTC-USD') {
     const msg = {
       type: 'subscribe',
       product_ids: [channel],
@@ -37,24 +34,21 @@ export class WebSocketService {
 
     if (this.connection$) {
       const payload = {
-        token:
-          '',
+        token: '',
         ...msg,
       };
       this.connection$.next(payload);
     }
   }
-  unsubscribe(channel='BTC-USD') {
+  unsubscribe(channel = 'BTC-USD') {
     const msg = {
-      "type": "unsubscribe",
-    "channels": [
-        "heartbeat", "level2"
-    ]};
+      type: 'unsubscribe',
+      channels: ['heartbeat', 'level2'],
+    };
 
     if (this.connection$) {
       const payload = {
-        token:
-          '',
+        token: '',
         ...msg,
       };
       this.connection$.next(payload);

@@ -12,7 +12,6 @@ import { snapshotSelector } from 'src/app/store/coinbase.selectors';
 })
 export class SnapshotComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
-  snapshot = [] as any;
   bids: Array<SnapshotItem> = [];
   asks: Array<SnapshotItem> = [];
 
