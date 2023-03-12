@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
 import { CoinBaseState } from 'src/app/store';
-import { coinBaseActions } from 'src/app/store/actions.-types';
+import { coinBaseActions } from 'src/app/store/actions.types';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 
 @Component({

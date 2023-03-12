@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store"
 import { SnapshotItem, UpdateItem } from "../model/app.model";
-import { coinBaseActions } from "./actions.-types";
+import { coinBaseActions } from "./actions.types";
 export interface CoinBaseState {
     snapshot: { bids: Array<SnapshotItem>, asks: Array<SnapshotItem>},
     update: {changes: Array<UpdateItem>}
